@@ -1,3 +1,6 @@
 node_modules
-
+server/.env
 mywind
+northwind.mwb
+northwind.mwb.bak
+recapday1_2.sql
