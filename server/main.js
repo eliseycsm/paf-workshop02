@@ -48,7 +48,7 @@ const pool = mysql.createPool({
 
 //7. construct MYSQL statements - select all rsvps & insert one record
 const queryComputeOrdersView = 'SELECT * from compute_orders where id=?;' //* has performance issue if too many columns, so best practice is define columns out
-
+const queryMultipleOrdersView = 'SELECT * from compute_orders where id in (?); '
 //if u are not putting in all the fields of the table u MUST state which fields u are inserting into else cannot get result back
 
 
@@ -101,7 +101,7 @@ const startApp = async(app, pool) => {
 // 9. Create the closure function for the end point to
 // perform crud operation against the database
 const executeComputeOrdersView = makeQuery(queryComputeOrdersView, pool)
-
+const executeMultipleOrdersView = makeQuery(queryMultipleOrdersView, pool)
 
 
 
@@ -111,8 +111,17 @@ const executeComputeOrdersView = makeQuery(queryComputeOrdersView, pool)
 
 app.get(`/order/total/:orderId`, (req, resp) =>{
     const orderId = req.params.orderId
+    let sqlData;
+
     console.log(orderId)
-    executeComputeOrdersView([orderId]).then(results => {
+    if(!orderId.includes(",")){
+        console.log("single item")
+        sqlData = executeComputeOrdersView([orderId])
+    }else{
+        console.log("multiple   items")
+        sqlData = executeMultipleOrdersView([orderId])
+    }
+    sqlData.then(results => {
         //resp.status(200).json(res)
         //return text/html
 

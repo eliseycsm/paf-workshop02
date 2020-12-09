@@ -26,9 +26,15 @@ export class AppComponent {
     console.log(this.result)
   }
 
-  async getOrderIds(){
-    let orderIds = this.form.get('orderIdArr')
-    console.log("orderIds", orderIds)
+ async getOrderIds(){//retrieve from multiple inputs
+    let orderIds = this.form.get('orderIdArr').value
+    orderIds = orderIds.map(e=> e.orderId)
+    console.log("orderIds", orderIds) 
+
+    let ordersRequested = orderIds.join(",")
+    this.result = await this.formSvc.getMultipleOrderDetails(ordersRequested)
+    console.log(this.result)
+
   }
 
   createOrderQuery() {

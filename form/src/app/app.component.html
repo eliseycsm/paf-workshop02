@@ -1,6 +1,7 @@
 <h2>Order Form Details</h2>
 <div class="col-md-3">
-  <form [formGroup]="form" (ngSubmit)="getOrderId()">
+  <form [formGroup]="form" (ngSubmit)="getOrderIds()">
+    <!-- add [formGroup] and loop controls here -->
     <div class="border" *ngFor="let query of form.get('orderIdArr')?.controls; let i = index" [formGroup]="query">
       <div class="form-group">
         <label for="orderId">Input Order Id: </label>
