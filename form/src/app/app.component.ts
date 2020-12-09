@@ -31,8 +31,8 @@ export class AppComponent {
     orderIds = orderIds.map(e=> e.orderId)
     console.log("orderIds", orderIds) 
 
-    let ordersRequested = orderIds.join(",")
-    this.result = await this.formSvc.getMultipleOrderDetails(ordersRequested)
+    let ordersRequested = orderIds
+    this.result = await this.formSvc.getMultipleOrderDetails(orderIds)
     console.log(this.result)
 
   }

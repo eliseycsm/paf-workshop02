@@ -16,6 +16,7 @@ export class FormService{
     
     //get multiple order details from db
     getMultipleOrderDetails(ordersRequested: string): Promise<any>{
+        console.log("in svc,", ordersRequested)
         return this.http.get(`http://localhost:3000/order/total/${ordersRequested}`).toPromise()
         .catch(e =>  console.error("Error from multiple retrieval", e))
     }

@@ -110,15 +110,15 @@ const executeMultipleOrdersView = makeQuery(queryMultipleOrdersView, pool)
 // invoke the findAllRsvp closure function 
 
 app.get(`/order/total/:orderId`, (req, resp) =>{
-    const orderId = req.params.orderId
+    let orderId = req.params.orderId
     let sqlData;
 
-    console.log(orderId)
+    console.log("received frm svc ", orderId)
     if(!orderId.includes(",")){
         console.log("single item")
         sqlData = executeComputeOrdersView([orderId])
     }else{
-        console.log("multiple   items")
+        orderId = orderId.split(",")
         sqlData = executeMultipleOrdersView([orderId])
     }
     sqlData.then(results => {
