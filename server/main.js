@@ -119,7 +119,7 @@ app.get(`/order/total/:orderId`, (req, resp) =>{
         sqlData = executeComputeOrdersView([orderId])
     }else{
         orderId = orderId.split(",")
-        sqlData = executeMultipleOrdersView([orderId])
+        sqlData = executeMultipleOrdersView([orderId]) // cannot remove [] else it will read the first input of the array instead of the entire array (ie we need a [[vals]])
     }
     sqlData.then(results => {
         //resp.status(200).json(res)
