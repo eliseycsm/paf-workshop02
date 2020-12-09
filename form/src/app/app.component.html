@@ -1,11 +1,19 @@
 <h2>Order Form Details</h2>
 <div class="col-md-3">
   <form [formGroup]="form" (ngSubmit)="getOrderId()">
-    <div class="form-group">
-      <label for="orderId">Input Order Id: </label>
-      <input type="text" id="orderId" placeholder="eg. 32" class="form-control" formControlName="orderId">
+    <div class="border" *ngFor="let query of form.get('orderIdArr')?.controls; let i = index" [formGroup]="query">
+      <div class="form-group">
+        <label for="orderId">Input Order Id: </label>
+        <input type="text" id="orderId" placeholder="eg. 32" class="form-control" formControlName="orderId">
+      </div>
+
+
+    </div>  
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="button" class="btn btn-warning" (click)="addOrderQuery()">Add Order Query</button>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+  
   </form>
 
 </div>
@@ -13,7 +21,7 @@
 <div class="results border border-primary" *ngIf="result.length > 0">
   <ul class="list-group" *ngFor="let order of result">
     
-    <li class="list-group-item">
+    <li class="list-group-item" >
       Order Number Requested: {{order.id}}
       <br>
       Customer Id: {{order.customer_id}}
