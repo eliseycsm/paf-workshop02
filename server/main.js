@@ -63,13 +63,9 @@ const makeQuery = (sql, pool) => {
         try{
             console.log("args", args)
             let results = await conn.query(sql, args || []) //results returned as [result, metadata]
-
-            if (results[0].length == 0) {
-                console.log(results[0])
-                throw new Error("Record not exist")
-            }else
-                console.log(results[0]);
-                return results[0] 
+            console.log(results[0]);
+            return results[0] 
+            
         }catch(err){
             console.error(err)
             return {"msg": err}
@@ -119,19 +115,25 @@ app.get(`/order/total/:orderId`, (req, resp) =>{
     executeComputeOrdersView([orderId]).then(results => {
         //resp.status(200).json(res)
         //return text/html
-        resp.format({
-            html: () => {
-                console.log("html")
-                resp.send('<h1>Hi</h1>' + JSON.stringify(results))
-            },
-            json: () => {
-                console.log("json")
-                resp.status(200).json(results)
-            }
-        })
+
+        if (results.length > 0){
+            resp.format({
+                html: () => {
+                    console.log("html")
+                    resp.send('<h1>Hi</h1>' + JSON.stringify(results))
+                },
+                json: () => {
+                    console.log("json")
+                    resp.status(200).json(results)
+                }
+            })
+        }else{
+            throw new Error('No record in database')
+        }
+        
     }).catch(err => {
         console.error("get error", err)
-        resp.status(500).json(err)
+        resp.status(500).json({err: err.message})
     })
     //resp.status(200).json({})
 })
